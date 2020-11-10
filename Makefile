@@ -15,7 +15,7 @@
 #
 REGISTRY_HOST=docker.io
 USERNAME=nixm0nk3y
-NAME=timescale-prometheus-debian-arm
+NAME=promscale-debian-arm
 
 RELEASE_SUPPORT := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))/.make-release-support
 IMAGE=$(REGISTRY_HOST)/$(USERNAME)/$(NAME)

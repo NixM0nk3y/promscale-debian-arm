@@ -6,10 +6,10 @@ FROM arm32v7/debian:buster
 
 LABEL maintainer="Nick Gregory <docker@openenterprise.co.uk>"
 
-ARG GOLANG_VERSION="1.14.2"
-ARG GOLANG_SHA256="eb4550ba741506c2a4057ea4d3a5ad7ed5a887de67c7232f1e4795464361c83c"
+ARG GOLANG_VERSION="1.15.4"
+ARG GOLANG_SHA256="fe449ad3e121472e5db2f70becc0fef9d1a7188616c0605ada63f1e3bbad280e"
 
-ARG TIMESCALE_PROMETHEUS_VERSION="master"
+ARG PROMSCALE_VERSION="0.1.2"
 
 # basic build infra
 RUN apt-get -y update \
@@ -29,11 +29,12 @@ ENV PATH="/usr/local/go/bin:${PATH}"
 
 # package build
 RUN cd /tmp \ 
-    && git clone https://github.com/timescale/timescale-prometheus.git \
-    && cd timescale-prometheus \
-    && git checkout ${TIMESCALE_PROMETHEUS_VERSION} \
-    && go mod download \
-    && CGO_ENABLED=0 go build -v -a --ldflags '-w' -o /tmp/timescale-prometheus-${TIMESCALE_PROMETHEUS_VERSION} ./cmd/timescale-prometheus
+    && git clone https://github.com/timescale/promscale.git \
+    && cd promscale \
+    && git checkout ${PROMSCALE_VERSION} \
+    && cd cmd/promscale \
+    && go install \
+    && go build ./...
 
 # extension needs PG12
 #RUN apt-get -y install postgresql-server-dev-11 libssl-dev
@@ -42,8 +43,8 @@ RUN cd /tmp \
 
 # package install
 RUN cd /tmp \
-    && install -D -m 0755 ./timescale-prometheus-${TIMESCALE_PROMETHEUS_VERSION} /install/opt/timescale-prometheus/timescale-prometheus \
-    && fpm -s dir -t deb -C /install --name timescale-prometheus --version 0.1 --iteration 1 \
+    && install -D -m 0755 ./promscale-${TIMESCALE_PROMETHEUS_VERSION} /install/opt/promscale/promscale \
+    && fpm -s dir -t deb -C /install --name promscale --version 1 --iteration ${PROMSCALE_VERSION} \
        --description "Use TimescaleDB as a compressed, long-term store for Prometheus time-series metrics"
 
 STOPSIGNAL SIGTERM
