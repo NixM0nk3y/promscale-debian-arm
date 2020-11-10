@@ -43,7 +43,7 @@ RUN cd /tmp \
 
 # package install
 RUN cd /tmp \
-    && install -D -m 0755 ./promscale-${TIMESCALE_PROMETHEUS_VERSION} /install/opt/promscale/promscale \
+    && install -D -m 0755 ./promscale/cmd/promscale/promscale /install/opt/promscale/promscale \
     && fpm -s dir -t deb -C /install --name promscale --version 1 --iteration ${PROMSCALE_VERSION} \
        --description "Use TimescaleDB as a compressed, long-term store for Prometheus time-series metrics"
 
