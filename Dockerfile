@@ -6,10 +6,10 @@ FROM arm32v7/debian:buster
 
 LABEL maintainer="Nick Gregory <docker@openenterprise.co.uk>"
 
-ARG GOLANG_VERSION="1.15.4"
-ARG GOLANG_SHA256="fe449ad3e121472e5db2f70becc0fef9d1a7188616c0605ada63f1e3bbad280e"
+ARG GOLANG_VERSION="1.16.4"
+ARG GOLANG_SHA256="a53391a800ddec749ee90d38992babb27b95cfb864027350c737b9aa8e069494"
 
-ARG PROMSCALE_VERSION="0.1.2"
+ARG PROMSCALE_VERSION="0.4.0"
 
 # basic build infra
 RUN apt-get -y update \
