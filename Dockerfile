@@ -2,14 +2,14 @@
 #
 #
 
-FROM arm32v7/debian:buster
+FROM debian:buster
 
 LABEL maintainer="Nick Gregory <docker@openenterprise.co.uk>"
 
-ARG GOLANG_VERSION="1.16.4"
-ARG GOLANG_SHA256="a53391a800ddec749ee90d38992babb27b95cfb864027350c737b9aa8e069494"
+ARG GOLANG_VERSION="1.17.6"
+ARG GOLANG_SHA256="82c1a033cce9bc1b47073fd6285233133040f0378439f3c4659fe77cc534622a"
 
-ARG PROMSCALE_VERSION="0.4.0"
+ARG PROMSCALE_VERSION="0.8.0"
 
 # basic build infra
 RUN apt-get -y update \
@@ -20,10 +20,10 @@ RUN apt-get -y update \
 
 RUN cd /tmp \
     && echo "==> Downloading Golang..." \
-    && curl -fSL  https://dl.google.com/go/go${GOLANG_VERSION}.linux-armv6l.tar.gz -o go${GOLANG_VERSION}.linux-armv6l.tar.gz \
-    && sha256sum go${GOLANG_VERSION}.linux-armv6l.tar.gz \
-    && echo "${GOLANG_SHA256}  go${GOLANG_VERSION}.linux-armv6l.tar.gz" | sha256sum -c - \
-    && tar -C /usr/local -xzf /tmp/go${GOLANG_VERSION}.linux-armv6l.tar.gz
+    && curl -fSL  https://go.dev/dl/go${GOLANG_VERSION}.linux-arm64.tar.gz -o go${GOLANG_VERSION}.linux-arm64.tar.gz \
+    && sha256sum go${GOLANG_VERSION}.linux-arm64.tar.gz \
+    && echo "${GOLANG_SHA256}  go${GOLANG_VERSION}.linux-arm64.tar.gz" | sha256sum -c - \
+    && tar -C /usr/local -xzf /tmp/go${GOLANG_VERSION}.linux-arm64.tar.gz
 
 ENV PATH="/usr/local/go/bin:${PATH}"
 
